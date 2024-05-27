@@ -7,7 +7,7 @@ OBJS = $(SRCS:.c=.o)
 GNL_OBJS = $(GNL:.c=.o)
 
 
-CC = gcc
+CC = cc
 CCFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/27 13:07:34 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:44:25 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	check_file_format(char *s)
 	i = 0;
 	while (s[i])
 		i++;
-	if (s[i - 1] == 'c' && s[i - 2] == 'u' && s[i - 3] == 'b' && s[i
-		- 4] == '.') // проверка расширения файла
+	if (s[i - 1] == 'b' && s[i - 2] == 'u' && s[i - 3] == 'c' && s[i
+		- 4] == '.')
 		return (1);
 	return (0);
 }
@@ -31,11 +31,11 @@ int	count_lines(char **argv)
 	int		lines;
 	char	*line;
 
-	/*if (!check_file_format(argv[1]))
+	if (!check_file_format(argv[1]))
 	{
 		perror("Map error:");
 		exit(0);
-	}*/
+	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (0);
