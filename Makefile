@@ -1,50 +1,34 @@
 NAME = cub3D
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+SRCS =	main.c utils.c
 
-
-ifeq ($(shell uname), Linux)
-	INCLUDES = -I/usr/include -Imlx
-else
-	INCLUDES = -I/opt/X11/include -Imlx
-endif
-
-RM = rm
-RMFLAG = -f
-
-MLX_DIR = ./mlx
-MLX_LIB = $(MLX_DIR)/libmlx_$(UNAME).a
-ifeq ($(shell uname), Linux)
-	MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
-else
-	MLX_FLAGS = -Lmlx -lmlx -L/usr/X11/lib -lXext -lX11 -framework OpenGL -framework AppKit
-endif
-
-SRCS =	main.c
-
+GNL = gnl/get_next_line.c gnl/get_next_line_utils.c
 OBJS = $(SRCS:.c=.o)
+GNL_OBJS = $(GNL:.c=.o)
 
-GNL = ./gnl/*c
 
-all: $(MLX_LIB) $(NAME)
+CC = gcc
+CCFLAGS = -Wall -Wextra -Werror
 
-.c.o:
-	$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES)
+all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(GNL) -o $(NAME) $(OBJS) $(MLX_FLAGS)
+$(NAME):	$(OBJS) $(GNL_OBJS)
+	make -C ./mlx
+	$(CC) $(CCFLAGS) -Lmlx -lmlx -framework OpenGL -framework AppKit $(OBJS) $(GNL_OBJS) -o $(NAME)
 
-$(MLX_LIB):
-	@make -C $(MLX_DIR)
+debug:	$(OBJS) $(GNL_OBJS)
+	make -C ./mlx
+	$(CC) $(CCFLAGS) -fsanitize=address -Lmlx -lmlx -framework OpenGL -framework AppKit $(OBJS) $(GNL_OBJS) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(RMFLAG) $(OBJS)
+	rm -f $(OBJS) $(GNL_OBJS)
 
 fclean: clean
-	$(RM) $(RMFLAG) $(NAME)
-	if [ -d "./mlx" ]; then make -C $(MLX_DIR) clean; fi
+	make clean -C mlx/
+	rm -f $(NAME)
+
 
 re: fclean all
-
-.PHONY: all clean run fclean re 

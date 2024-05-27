@@ -6,11 +6,24 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/27 11:13:08 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:07:34 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+int	check_file_format(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	if (s[i - 1] == 'c' && s[i - 2] == 'u' && s[i - 3] == 'b' && s[i
+		- 4] == '.') // проверка расширения файла
+		return (1);
+	return (0);
+}
 
 int	count_lines(char **argv)
 {
@@ -18,11 +31,11 @@ int	count_lines(char **argv)
 	int		lines;
 	char	*line;
 
-	if (!check_file_format(argv[1]))
+	/*if (!check_file_format(argv[1]))
 	{
 		perror("Map error:");
 		exit(0);
-	}
+	}*/
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		return (0);
@@ -56,18 +69,7 @@ int	check_map_width(char *line)
 	return (i);
 }
 
-int	check_file_format(char *s)
-{
-	int	i;
 
-	i = 0;
-	while (s[i])
-		i++;
-	if (s[i - 1] == 'c' && s[i - 2] == 'u' && s[i - 3] == 'b' && s[i
-		- 4] == '.') // проверка расширения файла
-		return (1);
-	return (0);
-}
 
 int	read_map(t_data *game, char **argv)
 {
@@ -97,6 +99,12 @@ int	read_map(t_data *game, char **argv)
 	return (1);
 }
 
+void print_map(t_data *game) {
+    for (int i = 0; i < game->map_height; i++) {
+        printf("%s\n", game->map[i]);
+    }
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	game;
@@ -105,6 +113,9 @@ int	main(int argc, char **argv)
 		return (0);
 	ft_memset(&game, 0, sizeof(t_data));
 	read_map(&game, argv);
+	print_map(&game);
+
+
     
 
     /*
