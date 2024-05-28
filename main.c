@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/27 14:44:25 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:42:48 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ void print_map(t_data *game) {
         printf("%s\n", game->map[i]);
     }
 }
+
+
+
+
+
 
 int	main(int argc, char **argv)
 {
