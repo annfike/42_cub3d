@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/27 12:56:45 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:30:01 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@
 # define KEYLEFT 123
 # define KEYEXIT 53
 
+# define WIN_WIDTH 640
+# define WIN_HEIGHT 480
+
 typedef struct s_data
 {
     char	**map;
 	int		map_height;
 	int		map_width;
-    void    *mlx_ptr;
-	void    *win_ptr;
+    void    *mlx;
+	void    *win;
     void    *img_floor;
     void    *img_wall;
     void    *img_player;
@@ -54,5 +57,7 @@ void	*ft_memset(void *s, int c, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
+
+void	ft_reload(t_data *game);
 
 #endif
