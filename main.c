@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/29 18:30:26 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:32:57 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,12 @@ void	close_game(t_data *game){
 
 int	do_move(int key, t_data *game)
 {
-	if (key == 53)
+	if (key == KEYEXIT)
 		close_game(game);
+	/*# define KEYUP 126
+	# define KEYDOWN 125
+	# define KEYRIGHT 124
+	# define KEYLEFT 123*/
 	/*
 	else if (key == 123)
 		step_up(par, par->i - 1);
