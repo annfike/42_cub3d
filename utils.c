@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Anna <Anna@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 14:41:15 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/27 12:55:38 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:54:18 by Anna             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,32 @@ void	ft_putnbr_fd(int n, int fd)
 	if ((nb / 10) > 0)
 		ft_putnbr_fd((nb / 10), fd);
 	ft_putchar_fd((nb % 10) + '0', fd);
+}
+
+int	ft_atoi1(const char *str, int *g)
+{
+	int	i;
+	int	minus;
+	int	n;
+	//printf("\ng = %d\n", *g);
+
+	i = 0;
+	minus = 1;
+	n = 0;
+	while (str[i] == ' ' || str[i] == '\f' || str[i] == '\n' || str[i] == '\r'
+		|| str[i] == '\t' || str[i] == '\v')
+		i++;
+	if (str[i] == '-')
+		minus = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		n = n * 10 + (str[i] - '0');
+		i++;
+		(*g)++;
+	}
+	//g++;
+	//printf("g = %d\n", *g);
+	return (n * minus);
 }

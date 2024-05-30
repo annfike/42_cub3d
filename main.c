@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Anna <Anna@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/28 13:42:48 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:13:09 by Anna             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,12 @@ int	count_lines(char **argv)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		if (line[0] == '\n')
-		{
-			perror("Map error:");
-			exit(0);
-		}
 		free(line);
 		lines++;
 	}
 	close(fd);
 	return (lines);
 }
-
-int	check_map_width(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] != '\0')
-		i++;
-	if (line[i - 1] == '\n')
-		i--;
-	return (i);
-}
-
 
 
 int	read_map(t_data *game, char **argv)
@@ -95,18 +77,23 @@ int	read_map(t_data *game, char **argv)
 	if (lines == 0)
 		return (0);
 	game->map_height = lines;
-	game->map_width = check_map_width(game->map[0]);
 	return (1);
 }
 
 void print_map(t_data *game) {
     for (int i = 0; i < game->map_height; i++) {
-        printf("%s\n", game->map[i]);
+        printf("%s", game->map[i]);
     }
 }
 
 
-
+void	error(char *error)
+{
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd("\n", 2);
+	exit(0);
+}
 
 
 
@@ -115,16 +102,17 @@ int	main(int argc, char **argv)
 	t_data	game;
 
 	if (argc != 2)
-		return (0);
+		error("Invalid number of arguments");
 	ft_memset(&game, 0, sizeof(t_data));
 	read_map(&game, argv);
 	print_map(&game);
+	parse_map(&game);
 
 
     
 
     /*
-	check_map(&game);
+	
 	game.mlx_ptr = mlx_init();
 	game.win_ptr = mlx_new_window(game.mlx_ptr, game.map_width * SIZE,
 			game.map_height * SIZE, "solong");
