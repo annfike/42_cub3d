@@ -6,40 +6,32 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:11:08 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/05/30 15:13:19 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:10:44 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-unsigned int	ft_get_color(char *charcolor)
+unsigned int	ft_get_color(int colors[3])
 {
 	unsigned int	color;
 
-	color = 0;
-	while (*charcolor)
-	{
-		
-		charcolor++;
-		
-	}
+	color = colors[0] << 16 | colors[1] << 8 | colors[2];
 	return (color);
 }
 
 void	draw_up_down(t_img image, t_data *game)
 {
-	(void)game;
-
 	unsigned int	*img;
 	int	i;
 
+	(void)game;
 	i = 0;
 	img = (unsigned int *)image.addr;
 	while (i < WIN_HEIGHT * WIN_WIDTH / 2)
-		img[i++] = 0x00FF0000;
-	i = WIN_HEIGHT * WIN_WIDTH / 2 + 1;
+		img[i++] = ft_get_color(game->c_colors);
 	while (i < WIN_HEIGHT * WIN_WIDTH)
-		img[i++] = 0x0000FF00;
+		img[i++] =  ft_get_color(game->f_colors);
 }
 
 void	ft_redraw(t_data *game)

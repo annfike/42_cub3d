@@ -1,3 +1,11 @@
+NO ./img/cat1.xpm
+SO ./img/exit.xpm
+WE ./img/floor1.xpm
+EA ./img/wall1.xpm
+
+F 220,100,0
+C 225,30,100
+
 111111
 100101
 101001

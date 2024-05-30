@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 15:42:27 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:08:07 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int	main(int argc, char **argv)
 	ft_memset(&game, 0, sizeof(t_data));
 	read_map(&game, argv);
 	print_map(&game);
+	parse_map(&game);
 	//check_map(&game);
 	game.mlx = mlx_init();
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
