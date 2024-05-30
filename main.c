@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 15:31:12 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:40:30 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,32 @@ void	error(char *error)
 	exit(0);
 }
 
+void	close_game(t_data *game){
+	(void)game;
+	exit(0);
+}
 
+int	do_move(int key, t_data *game)
+{
+	if (key == KEYEXIT)
+		close_game(game);
+	/*# define KEYUP 126
+	# define KEYDOWN 125
+	# define KEYRIGHT 124
+	# define KEYLEFT 123*/
+	/*
+	else if (key == 123)
+		step_up(par, par->i - 1);
+	if (key == 124)
+		step_up(par, par->i + 1);
+	if (key == 125)
+		step_up(par, par->i + par->x + 1);
+	if (key == 126)
+		step_up(par, par->i - par->x - 1);
+	*/
+	(void)game;
+	return (1);
+}
 
 int	main(int argc, char **argv)
 {
@@ -106,22 +131,14 @@ int	main(int argc, char **argv)
 	ft_memset(&game, 0, sizeof(t_data));
 	read_map(&game, argv);
 	print_map(&game);
-	parse_map(&game);
-
-
-    
-
-    /*
-	
-	game.mlx_ptr = mlx_init();
-	game.win_ptr = mlx_new_window(game.mlx_ptr, game.map_width * SIZE,
-			game.map_height * SIZE, "solong");
-	file_to_image(&game);
-	image_to_window(&game);
-	mlx_key_hook(game.win_ptr, key_hook, &game);
-	mlx_hook(game.win_ptr, 17, 0, close_game, &game);
-	mlx_loop(game.mlx_ptr);
-    */
+	//check_map(&game);
+	game.mlx = mlx_init();
+	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+	ft_redraw(&game);
+	mlx_key_hook(game.win, do_move, &game);
+	mlx_hook(game.win, 17, 0, (void *)close_game, &game);
+	mlx_loop(game.mlx);
+	return (0);
 }
 
 /* make

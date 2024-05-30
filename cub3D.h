@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 15:30:32 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:39:01 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,22 @@
 # define KEYLEFT 123
 # define KEYEXIT 53
 
+# define WIN_WIDTH 640
+# define WIN_HEIGHT 480
+
 typedef struct s_data
 {
-    char	**map;
+	char	**map;
 	int		map_height;
     char    *img_path[4]; //NSWE
     int     f_colors[3];
     int     c_colors[3];
     char	**map_game;
     int		map_game_height;
-
+	void    *mlx;
+	void    *win;
     
-    /*void    *mlx_ptr;
-	void    *win_ptr;
+    /*
     void    *img_floor;
     void    *img_wall;
     void    *img_player;
@@ -54,6 +57,15 @@ typedef struct s_data
     int    **objects;*/
 
 }	t_data;
+
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+}	t_img;
 
 /* main */
 void	error(char *error);
@@ -77,5 +89,8 @@ void    parse_map(t_data *data);
 /* map_check */
 int     check_cell_char(t_data *data, int i, int j);
 void    check_map_chars(t_data *data);
+
+/* draw */
+void	ft_redraw(t_data *game);
 
 #endif
