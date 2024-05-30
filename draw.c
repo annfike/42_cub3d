@@ -21,6 +21,7 @@ unsigned int	ft_get_color(char *charcolor)
 	{
 		
 		charcolor++;
+		
 	}
 	return (color);
 }
