@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRCS =	main.c utils.c draw.c
+SRCS =	main.c utils.c map_parse.c map_check.c
 
 GNL = gnl/get_next_line.c gnl/get_next_line_utils.c
 OBJS = $(SRCS:.c=.o)
@@ -8,12 +8,12 @@ GNL_OBJS = $(GNL:.c=.o)
 
 
 CC = cc
-CCFLAGS = -Wall -Wextra -Werror 
+CCFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME):	$(OBJS) $(GNL_OBJS)
-	make -C ./mlx  
+	make -C ./mlx
 	$(CC) $(CCFLAGS) -Lmlx -lmlx -framework OpenGL -framework AppKit $(OBJS) $(GNL_OBJS) -o $(NAME)
 
 debug:	$(OBJS) $(GNL_OBJS)

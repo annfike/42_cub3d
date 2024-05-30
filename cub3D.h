@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 14:38:09 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:30:32 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,44 +29,53 @@
 # define KEYLEFT 123
 # define KEYEXIT 53
 
-# define WIN_WIDTH 640
-# define WIN_HEIGHT 480
-
 typedef struct s_data
 {
-	char	**map;
+    char	**map;
 	int		map_height;
-	int		map_width;
-	void    *mlx;
-	void    *win;
-	void    *img_floor;
-	void    *img_wall;
-	void    *img_player;
-	void    *img_to_collect;
-	void    *img_exit;
-	int     player_x;
-	int     player_y;
-	int     moves_count;
-	int     to_collect_count;
-	int    **objects;
+    char    *img_path[4]; //NSWE
+    int     f_colors[3];
+    int     c_colors[3];
+    char	**map_game;
+    int		map_game_height;
+
+    
+    /*void    *mlx_ptr;
+	void    *win_ptr;
+    void    *img_floor;
+    void    *img_wall;
+    void    *img_player;
+    void    *img_to_collect;
+    void    *img_exit;
+    int     player_x;
+    int     player_y;
+    int     moves_count;
+    int     to_collect_count;
+    int    **objects;*/
 
 }	t_data;
 
-typedef struct s_img
-{
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-}	t_img;
+/* main */
+void	error(char *error);
 
 /* utils */
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
+int     ft_atoi1(const char *str, int *i);
 
-void	ft_redraw(t_data *game);
+/* map_parse */
+void    free_map(t_data *data);
+void    free_all(t_data *data);
+void    save_img_path(t_data *data, char *line, char c, int j);
+void    save_colors(t_data *data, char *line, char c, int j);
+void    save_map_game(t_data *data, int i);
+void    parse_elements(t_data *data);
+void    parse_map(t_data *data);
+
+/* map_check */
+int     check_cell_char(t_data *data, int i, int j);
+void    check_map_chars(t_data *data);
 
 #endif
