@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:11:08 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/05/30 14:56:50 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:13:19 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ unsigned int	ft_get_color(char *charcolor)
 	color = 0;
 	while (*charcolor)
 	{
+		
 		charcolor++;
 	}
 	return (color);
