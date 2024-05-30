@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/29 18:30:01 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:38:09 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,32 @@
 
 typedef struct s_data
 {
-    char	**map;
+	char	**map;
 	int		map_height;
 	int		map_width;
-    void    *mlx;
+	void    *mlx;
 	void    *win;
-    void    *img_floor;
-    void    *img_wall;
-    void    *img_player;
-    void    *img_to_collect;
-    void    *img_exit;
-    int     player_x;
-    int     player_y;
-    int     moves_count;
-    int     to_collect_count;
-    int    **objects;
+	void    *img_floor;
+	void    *img_wall;
+	void    *img_player;
+	void    *img_to_collect;
+	void    *img_exit;
+	int     player_x;
+	int     player_y;
+	int     moves_count;
+	int     to_collect_count;
+	int    **objects;
 
 }	t_data;
+
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+}	t_img;
 
 /* utils */
 void	*ft_memset(void *s, int c, size_t n);
@@ -58,6 +67,6 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
-void	ft_reload(t_data *game);
+void	ft_redraw(t_data *game);
 
 #endif
