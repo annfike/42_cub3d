@@ -20,6 +20,7 @@ unsigned int	ft_get_color(char *charcolor)
 	while (*charcolor)
 	{
 		charcolor++;
+		
 	}
 	return (color);
 }
