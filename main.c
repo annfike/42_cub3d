@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 16:08:07 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:33:30 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int	main(int argc, char **argv)
 		error("Invalid number of arguments");
 	ft_memset(&game, 0, sizeof(t_data));
 	read_map(&game, argv);
+	printf("\n-----full map parsed-----------\n");
 	print_map(&game);
 	parse_map(&game);
 	//check_map(&game);

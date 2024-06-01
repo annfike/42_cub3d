@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRCS =	main.c utils.c draw.c map_parse.c map_check.c
+SRCS =	main.c utils.c draw.c map_parse.c map_check.c map_check_walls.c
 
 GNL = gnl/get_next_line.c gnl/get_next_line_utils.c
 OBJS = $(SRCS:.c=.o)

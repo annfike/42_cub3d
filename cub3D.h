@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 15:42:22 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/01 14:42:16 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,11 @@ void    parse_elements(t_data *data);
 void    parse_map(t_data *data);
 
 /* map_check */
-int     check_cell_char(t_data *data, int i, int j);
 void    check_map_chars(t_data *data);
+
+/* map_check_walls */
+void    check_walls(t_data *data);
+void	check_walls0(t_data *data);
 
 /* draw */
 void	ft_redraw(t_data *game);

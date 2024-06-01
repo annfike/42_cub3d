@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Anna <Anna@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 14:50:46 by Anna             ###   ########.fr       */
+/*   Updated: 2024/06/01 14:45:56 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    free_map_game(t_data *data)
     int i;
 
     i = 0;
-    while (data->map_game[i])
+    while (i < data->map_game_height)
     {
         free(data->map_game[i]);
         i++;
@@ -48,7 +48,7 @@ void    free_all(t_data *data)
     free(data->img_path[1]);
     free(data->img_path[2]);
     free(data->img_path[3]);
-    free(data);
+    //free(data);
 }
 
 void    save_img_path(t_data *data, char *line, char c, int j)
@@ -115,7 +115,6 @@ void    save_map_game(t_data *data, int i)
         data->map_game_height++;
     }
     data->map_game[j] = NULL;
-    free_map(data);
 }
 
 void    parse_elements(t_data *data)
@@ -161,7 +160,7 @@ void    parse_elements(t_data *data)
         
         else
         {
-            //free_all(data);
+            free_all(data);
             error("The map is not valid.");
         }
         //printf("elements = %d\n", elements);
@@ -197,14 +196,19 @@ static void  print_map_game(t_data *data)
 
 void	parse_map(t_data *data)
 {
+    
     parse_elements(data);
-    printf("\n----------------\n");
+    printf("-----elements-----------\n");
     print_elements(data);
-    printf("----------------\n");
+    printf("\n------map_game----------\n");
     print_map_game(data);
-	//check_walls(data);
-    printf("\n----------------\n");
+    printf("\n-------checking map chars---------\n");
 	check_map_chars(data);
+    printf("\n----checking walls0------------\n");
+    check_walls0(data);
+    printf("\n----checking walls------------\n");
+	check_walls(data);
+    
 	//fill_arr_objects(data);
 	//check_valid_path(data);
 }
