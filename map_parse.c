@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/01 14:45:56 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:36:28 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,15 @@ void    save_img_path(t_data *data, char *line, char c, int j)
     i = j;
     while (line[i] == ' ' && line[i] != '.' && line[i] != '\0')
         i++;
+    char *s = ft_substr(&line[i], 0, ft_strlen(&line[i])-1);
     if (c == 'N')
-        data->img_path[0] = ft_strdup(&line[i]);
+        data->img_path[0] = ft_strdup(s);
     else if (c == 'S')
-        data->img_path[1] = ft_strdup(&line[i]);
+        data->img_path[1] = ft_strdup(s);
     else if (c == 'W')
-        data->img_path[2] = ft_strdup(&line[i]);
+        data->img_path[2] = ft_strdup(s);
     else if (c == 'E')
-        data->img_path[3] = ft_strdup(&line[i]);
+        data->img_path[3] = ft_strdup(s);
 }
 
 void save_colors(t_data *data, char *line, char c, int j)

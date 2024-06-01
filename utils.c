@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Anna <Anna@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 14:41:15 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/30 15:40:22 by Anna             ###   ########.fr       */
+/*   Updated: 2024/06/01 17:49:01 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	ft_atoi1(const char *str, int *g)
 	int	i;
 	int	minus;
 	int	n;
-	//printf("\ng = %d\n", *g);
 
 	i = 0;
 	minus = 1;
@@ -82,7 +81,8 @@ int	ft_atoi1(const char *str, int *g)
 		i++;
 		(*g)++;
 	}
-	//g++;
-	//printf("g = %d\n", *g);
-	return (n * minus);
+	n = n * minus;
+	if (n < 0 || n > 255)
+		error("Color value must be between 0 and 255.");
+	return (n);
 }
