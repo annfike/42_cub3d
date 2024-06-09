@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/09 15:33:46 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:10:51 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,21 @@ void	init_pos(t_data *game, int i, int j)
 	}
 }
 
+void	init_img(t_data *game)
+{
+	t_img	img;
+	int		i;
+
+	i = 0;
+	while(i < 4)
+	{
+		img.img = mlx_xpm_file_to_image(game->mlx, game->img_path[i], &img.width, &img.height);
+		img.addr = (unsigned int *)mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.size_line, &img.endian);
+		game->images[i] = img;
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	game;
@@ -189,9 +204,9 @@ int	main(int argc, char **argv)
 	//check_map(&game);
 	game.mlx = mlx_init();
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	init_pos(&game, 0, 0);
+	init_img(&game);	
+	init_pos(&game, 0, 0);	
 	ft_redraw(&game);
-	mlx_do_key_autorepeaton(game.mlx);
 	mlx_hook(game.win, 2, 0, do_move, &game);
 	mlx_hook(game.win, 17, 0, (void *)close_game, &game);
 	mlx_loop(game.mlx);

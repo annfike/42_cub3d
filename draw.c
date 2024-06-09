@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:11:08 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/06/09 15:37:00 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:55:33 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,11 @@ void	draw_up_down(t_img image, t_data *game)
 		image.addr[i++] =  ft_get_color(game->f_colors);
 }
 
-void	init_img(t_data *game, int i)
-{
-	t_img	img;
-	
-	img.img = mlx_xpm_file_to_image(game->mlx, game->img_path[i], &img.width, &img.height);
-	img.addr = (unsigned int *)mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.size_line, &img.endian);
-	game->images[i] = img;
-}
-
 void draw(t_img image, t_data *game)
 {
 	int	x;
 	float	delta;
 	float	look;
-
-	init_img(game, 0);
-	init_img(game, 1);
-	init_img(game, 2);
-	init_img(game, 3);
 	
 	x = 0;
 	look = M_PI * FOV / 180;
@@ -60,10 +46,6 @@ void draw(t_img image, t_data *game)
 		look += delta;
 		x++;
 	}
-	mlx_destroy_image(game->mlx, game->images[0].img);
-	mlx_destroy_image(game->mlx, game->images[1].img);
-	mlx_destroy_image(game->mlx, game->images[2].img);
-	mlx_destroy_image(game->mlx, game->images[3].img);
 }
 
 void	ft_redraw(t_data *game)
