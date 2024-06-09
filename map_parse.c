@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/01 17:36:28 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:54:26 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void    save_img_path(t_data *data, char *line, char c, int j)
         data->img_path[2] = ft_strdup(s);
     else if (c == 'E')
         data->img_path[3] = ft_strdup(s);
+    //free(s);
 }
 
 void save_colors(t_data *data, char *line, char c, int j)

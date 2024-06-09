@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/01 14:42:16 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:34:12 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,27 @@
 # define KEYRIGHT 124
 # define KEYLEFT 123
 # define KEYEXIT 53
+# define KEYW 13
+# define KEYA 0
+# define KEYS 1
+# define KEYD 2
 
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 480
+# define FOV 60
+# define STEP_TURN 4.0f * M_PI / 180
+# define STEP_UP 0.2f
+
+typedef struct s_img
+{
+	void			*img;
+	unsigned int	*addr;
+	int				bits_per_pixel;
+	int				size_line;
+	int				endian;
+	int				width;
+	int				height;
+}	t_img;
 
 typedef struct s_data
 {
@@ -43,7 +61,13 @@ typedef struct s_data
     int		map_game_height;
 	void    *mlx;
 	void    *win;
-    
+
+	float	x;
+	float	y;
+	float	look;
+	t_img	images[4];
+    int txt_idx;
+    float txt_w;
     /*
     void    *img_floor;
     void    *img_wall;
@@ -58,14 +82,21 @@ typedef struct s_data
 
 }	t_data;
 
-typedef struct s_img
+typedef struct s_ray
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-}	t_img;
+	float	dx;
+	float	dy;
+	int		sx;
+	int		sy;
+	float	hor_x;
+	float	hor_y;
+	float	vert_x;
+	float	vert_y;
+	float	vert_dist;
+	float	hor_dist;
+	float	vert_w;
+	float	hor_w;
+}	t_ray;
 
 /* main */
 void	error(char *error);
@@ -95,5 +126,8 @@ void	check_walls0(t_data *data);
 
 /* draw */
 void	ft_redraw(t_data *game);
+void	draw_line(t_data *game, int w, float dist, t_img img);
+float	ft_ray(t_data *game, float look);
+int		ft_sign(float f);
 
 #endif

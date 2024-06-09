@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:11:08 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/05/30 16:10:44 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:37:00 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,48 @@ unsigned int	ft_get_color(int colors[3])
 
 void	draw_up_down(t_img image, t_data *game)
 {
-	unsigned int	*img;
 	int	i;
 
-	(void)game;
 	i = 0;
-	img = (unsigned int *)image.addr;
 	while (i < WIN_HEIGHT * WIN_WIDTH / 2)
-		img[i++] = ft_get_color(game->c_colors);
+		image.addr[i++] = ft_get_color(game->c_colors);
 	while (i < WIN_HEIGHT * WIN_WIDTH)
-		img[i++] =  ft_get_color(game->f_colors);
+		image.addr[i++] =  ft_get_color(game->f_colors);
+}
+
+void	init_img(t_data *game, int i)
+{
+	t_img	img;
+	
+	img.img = mlx_xpm_file_to_image(game->mlx, game->img_path[i], &img.width, &img.height);
+	img.addr = (unsigned int *)mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.size_line, &img.endian);
+	game->images[i] = img;
+}
+
+void draw(t_img image, t_data *game)
+{
+	int	x;
+	float	delta;
+	float	look;
+
+	init_img(game, 0);
+	init_img(game, 1);
+	init_img(game, 2);
+	init_img(game, 3);
+	
+	x = 0;
+	look = M_PI * FOV / 180;
+	delta = look / (WIN_WIDTH - 1);
+	while (x < WIN_WIDTH)
+	{
+		draw_line(game, x, ft_ray(game, look) * cos(game->look - look), image);
+		look += delta;
+		x++;
+	}
+	mlx_destroy_image(game->mlx, game->images[0].img);
+	mlx_destroy_image(game->mlx, game->images[1].img);
+	mlx_destroy_image(game->mlx, game->images[2].img);
+	mlx_destroy_image(game->mlx, game->images[3].img);
 }
 
 void	ft_redraw(t_data *game)
@@ -39,9 +71,11 @@ void	ft_redraw(t_data *game)
 	t_img	img;
 
 	img.img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.size_line, &img.endian);
+	img.width = WIN_WIDTH;
+	img.height = WIN_HEIGHT;
+	img.addr = (unsigned int *)mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.size_line, &img.endian);
 	draw_up_down(img, game);
-
+	draw(img, game);
 	mlx_put_image_to_window(game->mlx, game->win, img.img, 0, 0);
 	mlx_destroy_image(game->mlx, img.img);
 }

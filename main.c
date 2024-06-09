@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/05/31 15:33:30 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/06/09 15:33:46 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,79 @@ void	close_game(t_data *game){
 	exit(0);
 }
 
+void	ft_move(t_data *game, int direction)
+{
+	float	dist;
+	float	dx;
+	float	dy;
+	float	angle;
+
+	angle = game->look + direction * M_PI / 2;
+	dx = STEP_UP * cos(angle);
+	dy = STEP_UP * sin(angle);
+	dist = ft_ray(game, ft_sign(dy) * M_PI / 2);
+	if (dist * dist < dy * dy)
+		dy = 0.0f;
+	dist = ft_ray(game, (1 - (ft_sign(dx) + 1) / 2) * M_PI);
+	if (dist * dist < dx * dx)
+		dx = 0.0f;
+	dist = ft_ray(game, angle);
+	if (dist * dist < dy * dy + dx * dx)
+		if (ft_sign(dy) * ft_sign(dx) != 0)
+			dy = 0.0f;
+	game->x += dx;
+	game->y -= dy;
+}
+
 int	do_move(int key, t_data *game)
 {
 	if (key == KEYEXIT)
 		close_game(game);
-	/*# define KEYUP 126
-	# define KEYDOWN 125
-	# define KEYRIGHT 124
-	# define KEYLEFT 123*/
-	/*
-	else if (key == 123)
-		step_up(par, par->i - 1);
-	if (key == 124)
-		step_up(par, par->i + 1);
-	if (key == 125)
-		step_up(par, par->i + par->x + 1);
-	if (key == 126)
-		step_up(par, par->i - par->x - 1);
-	*/
-	(void)game;
+	if (key == KEYUP || key == KEYW)
+		ft_move(game, 0);
+	else if (key == KEYDOWN || key == KEYS)
+		ft_move(game, 2);
+	else if (key == KEYLEFT)
+		game->look += STEP_TURN;
+	else if (key == KEYRIGHT)
+		game->look -= STEP_TURN;
+	else if (key == KEYA)
+		ft_move(game, 3);
+	else if (key == KEYD)
+		ft_move(game, 1);
+	else 
+		return (1);
+	ft_redraw(game);
 	return (1);
+}
+
+void	init_pos(t_data *game, int i, int j)
+{
+	game->x = 0;
+	game->y = 0;
+	while (game->map_game[i])
+	{
+		j = 0;
+		while(game->map_game[i][j])
+		{
+			if (ft_strchr("NSWE", game->map_game[i][j]))
+			{
+				game->x = j + 0.5;
+				game->y = i + 0.5;
+				if (game->map_game[i][j] == 'E')
+					game->look = 0;
+				else if (game->map_game[i][j] == 'N')
+					game->look = M_PI_2;
+				else if (game->map_game[i][j] == 'W')
+					game->look = M_PI;
+				else if (game->map_game[i][j] == 'S')
+					game->look = -0.5 * M_PI;
+				break;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -136,8 +189,10 @@ int	main(int argc, char **argv)
 	//check_map(&game);
 	game.mlx = mlx_init();
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+	init_pos(&game, 0, 0);
 	ft_redraw(&game);
-	mlx_key_hook(game.win, do_move, &game);
+	mlx_do_key_autorepeaton(game.mlx);
+	mlx_hook(game.win, 2, 0, do_move, &game);
 	mlx_hook(game.win, 17, 0, (void *)close_game, &game);
 	mlx_loop(game.mlx);
 	return (0);
