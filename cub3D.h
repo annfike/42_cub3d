@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/09 15:34:12 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:01:01 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 480
-# define FOV 60
+# define FOV 90
 # define STEP_TURN 4.0f * M_PI / 180
 # define STEP_UP 0.2f
 
