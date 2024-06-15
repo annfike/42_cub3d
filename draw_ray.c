@@ -6,11 +6,123 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:19:11 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/06/09 14:51:38 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:59:48 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+//void	draw_line(t_data *game, int x, float dist, t_img img)
+//{
+	
+//}
+
+float	correct_angle(float value)
+{
+	if (value < 0)
+		value += 2 * M_PI;
+	if (value > 2 * M_PI)
+		value -= 2 * M_PI;
+	return (value);
+}
+
+int	wall_hit(float x, float y, t_data *game)
+{
+	int		x_m;
+	int		y_m;
+
+	if (x < 0 || y < 0)
+		return (0);
+	x_m = floor (x);
+	y_m = floor (y);
+	if (y_m >= game->map_game_height)
+		return (0);
+	if (game->map_game[y_m] && x_m <= (int)strlen(game->map_game[y_m]))
+		if (game->map_game[y_m][x_m] == '1')
+			return (0);
+	return (1);
+}
+
+float	get_cross_horiz(t_data *game, float look)
+{
+	float	dx;
+	float	dy;
+	float	x;
+	float	y;
+	int		pix;
+
+	dy = 1;
+	dx = 1 / tanf(look);
+	y = floor(game->y);
+	pix = 1;
+	if (look > 0 && look < M_PI)
+	{
+		y += 1;
+		pix = -1;
+	}
+	else
+		dy = -dy;
+	x = game->x + (y - game->y) / tan(look);
+	if ( ((look > M_PI_2 && look < (3 * M_PI) / 2) && dx > 0)
+		|| ((look <= M_PI_2 && look >= (3 * M_PI) / 2) && dx < 0))
+		dx = -dx;
+	while (wall_hit(x, y - pix, game))
+	{
+		x += dx;
+		y += dy;
+	}
+	return (sqrt(pow(x - game->x, 2) + pow(y - game->y, 2)));
+}
+
+float	get_cross_vert(t_data *game, float look)
+{
+	float	dx;
+	float	dy;
+	float	x;
+	float	y;
+	int		pix;
+
+	dx = 1;
+	dy = 1 * tanf(look);
+	x = floor(game->x);
+	pix = 1;
+	if (!(look > M_PI / 2 && look < 3 * M_PI / 2)) 
+	{
+		x += 1;
+		pix = -1;
+	}
+	else 
+		dx = -dx;
+	y = game->y + (x - game->x) * tan(look);
+	if ( ((look > 0 && look < M_PI) && dy < 0)
+		|| ((look <= 0 && look >= M_PI) && dy > 0))
+		dy = -dy;
+	while (wall_hit(x-pix, y, game))
+	{
+		x += dx;
+		y += dy;
+	}
+	return (sqrt(pow(x - game->x, 2) + pow(y - game->y, 2)));
+}
+
+float	ft_ray(t_data *game, float look)
+{
+	float	vert;
+	float	horiz;
+	
+	horiz = get_cross_horiz(game, look);
+	vert = get_cross_vert(game, look);
+	
+	if (vert <= horiz) 
+			return (vert); 
+		else
+		{
+			return (horiz);
+			//mlx->ray->flag = 1;
+		}
+	
+}
+
 
 void	draw_line(t_data *game, int x, float dist, t_img img)
 {
@@ -35,7 +147,6 @@ void	draw_line(t_data *game, int x, float dist, t_img img)
 	{
 		*dst = *(src + ((int)src_f) * game->images[game->txt_idx].width);
 		//*dst = game->txt_idx * 255 + (1 - game->txt_idx) * (255 << 8);
-		//*dst = 0xFFFF00;
 		dst += WIN_WIDTH;
 		src_f += d_shift;
 	}
@@ -58,7 +169,7 @@ int	ft_sign(float f)
 			return (1);
 	}
 }
-
+/*
 static void	ft_ray_initial_calculations(t_data *game, t_ray *r, float look)
 {
 	r->dx = cos(look);
@@ -97,8 +208,8 @@ static void	ft_ray_next_step_calculation(t_data *game, t_ray *r)
 	}
 	else
 		r->hor_dist = INFINITY;
-}
-
+}*/
+/*
 float	ft_ray(t_data *game, float look)
 {
 	t_ray	r;
@@ -132,3 +243,4 @@ float	ft_ray(t_data *game, float look)
 	}
 	return 1;
 }
+*/

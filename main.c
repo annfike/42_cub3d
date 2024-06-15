@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/09 16:10:51 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/15 11:04:09 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void	init_pos(t_data *game, int i, int j)
 				else if (game->map_game[i][j] == 'W')
 					game->look = M_PI;
 				else if (game->map_game[i][j] == 'S')
-					game->look = -0.5 * M_PI;
+					game->look = - M_PI_2;
 				break;
 			}
 			j++;

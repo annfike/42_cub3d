@@ -6,7 +6,7 @@
 /*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/09 16:07:30 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/06/15 13:47:48 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void    free_all(t_data *data)
 		mlx_destroy_image(data->mlx, data->images[2].img);
 	if (data->images[3].img)
 		mlx_destroy_image(data->mlx, data->images[3].img);
-	//free(data);
 }
 
 void    save_img_path(t_data *data, char *line, char c, int j)

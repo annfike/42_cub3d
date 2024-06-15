@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/11 17:01:01 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/06/15 14:47:10 by dmiasnik         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "gnl/get_next_line.h"
 
 # define SIZE 40
+
 # define KEYUP 126
 # define KEYDOWN 125
 # define KEYRIGHT 124
@@ -35,7 +36,7 @@
 
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 480
-# define FOV 90
+# define FOV 60 * M_PI / 180
 # define STEP_TURN 4.0f * M_PI / 180
 # define STEP_UP 0.2f
 
