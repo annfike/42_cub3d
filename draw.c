@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:11:08 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/06/15 16:03:18 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:05:03 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void draw(t_img image, t_data *game)
 	float	look;
 	
 	x = 0;
-	look = game->look - FOV / 2;
+	look = game->look - FOV / 2;	
 	delta = FOV / (WIN_WIDTH - 1);
 	while (x < WIN_WIDTH)
 	{
-		draw_line(game, x, ft_ray(game, look) * cos(game->look - look), image);
+		draw_line(game, x, ft_ray2(game, look) * cos(game->look - look), image);
 		look += delta;
 		x++;
 	}

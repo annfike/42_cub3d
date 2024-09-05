@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/15 11:04:09 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:17:04 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void print_map(t_data *game) {
     }
 }
 
-
 void	error(char *error)
 {
 	ft_putstr_fd("Error\n", 2);
@@ -100,6 +99,24 @@ void	close_game(t_data *game){
 	exit(0);
 }
 
+int	ft_signx(float f)
+{
+	if (f < 0)
+	{
+		//if (f > -0.01f)
+		//	return (0);
+		//else
+			return (1);
+	}
+	else
+	{
+		//if (f < 0.01f)
+		//	return (0);
+		//else
+			return (0);
+	}
+}
+
 void	ft_move(t_data *game, int direction)
 {
 	float	dist;
@@ -110,18 +127,22 @@ void	ft_move(t_data *game, int direction)
 	angle = game->look + direction * M_PI / 2;
 	dx = STEP_UP * cos(angle);
 	dy = STEP_UP * sin(angle);
-	dist = ft_ray(game, ft_sign(dy) * M_PI / 2);
-	if (dist * dist < dy * dy)
+	dist = ft_ray2(game, ft_sign(dy) * M_PI / 2);
+	if (dist * dist < dy * dy + 0.1)
 		dy = 0.0f;
-	dist = ft_ray(game, (1 - (ft_sign(dx) + 1) / 2) * M_PI);
-	if (dist * dist < dx * dx)
+	dist = ft_ray2(game, ft_signx(dx) * M_PI);
+	if (dist * dist < dx * dx + 0.1)
 		dx = 0.0f;
-	dist = ft_ray(game, angle);
-	if (dist * dist < dy * dy + dx * dx)
-		if (ft_sign(dy) * ft_sign(dx) != 0)
+	dist = ft_ray2(game, angle);
+	/*if (dist * dist < dy * dy + dx * dx)
+		if (ft_sign(dy) * ft_signx(dx) != 0)
+		{
+			dx = 0.0f;
 			dy = 0.0f;
+		}
+	*/
 	game->x += dx;
-	game->y -= dy;
+	game->y += dy;
 }
 
 int	do_move(int key, t_data *game)
@@ -133,9 +154,9 @@ int	do_move(int key, t_data *game)
 	else if (key == KEYDOWN || key == KEYS)
 		ft_move(game, 2);
 	else if (key == KEYLEFT)
-		game->look += STEP_TURN;
-	else if (key == KEYRIGHT)
 		game->look -= STEP_TURN;
+	else if (key == KEYRIGHT)
+		game->look += STEP_TURN;
 	else if (key == KEYA)
 		ft_move(game, 3);
 	else if (key == KEYD)
@@ -162,11 +183,11 @@ void	init_pos(t_data *game, int i, int j)
 				if (game->map_game[i][j] == 'E')
 					game->look = 0;
 				else if (game->map_game[i][j] == 'N')
-					game->look = M_PI_2;
+					game->look = - M_PI_2;
 				else if (game->map_game[i][j] == 'W')
 					game->look = M_PI;
 				else if (game->map_game[i][j] == 'S')
-					game->look = - M_PI_2;
+					game->look = M_PI_2;
 				break;
 			}
 			j++;

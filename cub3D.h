@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/15 14:47:10 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:39:24 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_data
     int     c_colors[3];
     char	**map_game;
     int		map_game_height;
+	int		map_game_width_max;
 	void    *mlx;
 	void    *win;
 
@@ -129,6 +130,7 @@ void	check_walls0(t_data *data);
 void	ft_redraw(t_data *game);
 void	draw_line(t_data *game, int w, float dist, t_img img);
 float	ft_ray(t_data *game, float look);
+float	ft_ray2(t_data *game, float look);
 int		ft_sign(float f);
 
 #endif

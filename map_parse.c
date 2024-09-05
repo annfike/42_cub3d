@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/15 13:47:48 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:17:25 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,13 @@ void    save_map_game(t_data *data, int i)
 
 	j = 0;
 	k = 0;
+	data->map_game_width_max = 0;
 	data->map_game = (char **)malloc(sizeof(char *) * (data->map_height - i + 1));
 	while (i < data->map_height)
 	{
 		data->map_game[j] = ft_strdup(data->map[i]);
+		if (data->map_game_width_max < (int)ft_strlen(data->map_game[j]))
+			data->map_game_width_max = ft_strlen(data->map_game[j]);
 		i++;
 		j++;
 		data->map_game_height++;

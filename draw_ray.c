@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmiasnik <dmiasnik@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:19:11 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/06/15 15:59:48 by dmiasnik         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:16:39 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	wall_hit(float x, float y, t_data *game)
 
 	if (x < 0 || y < 0)
 		return (0);
-	x_m = floor (x);
-	y_m = floor (y);
+	x_m = floor(x);
+	y_m = floor(y);
 	if (y_m >= game->map_game_height)
 		return (0);
 	if (game->map_game[y_m] && x_m <= (int)strlen(game->map_game[y_m]))
@@ -105,6 +105,26 @@ float	get_cross_vert(t_data *game, float look)
 	return (sqrt(pow(x - game->x, 2) + pow(y - game->y, 2)));
 }
 
+float	ft_ray2(t_data *game, float look)
+{
+	float	c;
+	float	maxray;
+	int x;
+	int y;
+
+	maxray = sqrt(pow(game->map_game_height, 2) + pow(game->map_game_width_max, 2));
+	c = 0;
+	while (c < maxray)
+	{
+		x = floor(game->x + c * cos(look));
+		y = floor(game->y + c * sin(look));
+		if (game->map_game[y][x] == '1')
+			break;
+		c += 0.01;
+	}
+	return (c);
+}
+
 float	ft_ray(t_data *game, float look)
 {
 	float	vert;
@@ -154,21 +174,22 @@ void	draw_line(t_data *game, int x, float dist, t_img img)
 
 int	ft_sign(float f)
 {
-	if (f < 0.0f)
+	if (f < 0)
 	{
-		if (f > -0.001)
-			return (0);
-		else
+		//if (f > -0.2f)
+		//	return (0);
+		//else
 			return (-1);
 	}
 	else
 	{
-		if (f < 0.001f)
-			return (0);
-		else
+		//if (f < 0.2f)
+		//	return (0);
+		//else
 			return (1);
 	}
 }
+
 /*
 static void	ft_ray_initial_calculations(t_data *game, t_ray *r, float look)
 {
