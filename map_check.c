@@ -10,29 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "cub3D.h"
 
 static int	check_cell_char(t_data *data, int i, int j)
 {
-    int player_count=0;
-    if (!ft_strchr(" 01NSWE", data->map_game[i][j]))
+	int	player_count;
+
+	player_count = 0;
+	if (!ft_strchr(" 01NSWE", data->map_game[i][j]))
 	{
 		error(data, "The map contains invalid characters.");
 	}
-    if (ft_strchr("NSWE", data->map_game[i][j]))
+	if (ft_strchr("NSWE", data->map_game[i][j]))
 		player_count++;
-    return (player_count);
+	return (player_count);
 }
 
 void	check_map_chars(t_data *data)
 {
 	int	i;
 	int	j;
+	int	player_count;
 
 	i = 0;
 	j = 0;
-    int player_count=0;
+	player_count = 0;
 	while (i < data->map_game_height)
 	{
 		j = 0;
@@ -46,7 +48,3 @@ void	check_map_chars(t_data *data)
 	if (player_count != 1)
 		error(data, "Map error.");
 }
-
-
-
-

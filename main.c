@@ -52,7 +52,6 @@ int	count_lines(char **argv)
 	return (lines);
 }
 
-
 int	read_map(t_data *game, char **argv)
 {
 	char	*line;
@@ -80,10 +79,12 @@ int	read_map(t_data *game, char **argv)
 	return (1);
 }
 
-void print_map(t_data *game) {
-    for (int i = 0; i < game->map_height; i++) {
-        printf("%s", game->map[i]);
-    }
+void	print_map(t_data *game)
+{
+	for (int i = 0; i < game->map_height; i++)
+	{
+		printf("%s", game->map[i]);
+	}
 }
 
 void	error(t_data *game, char *error)
@@ -96,7 +97,8 @@ void	error(t_data *game, char *error)
 	exit(0);
 }
 
-void	close_game(t_data *game){
+void	close_game(t_data *game)
+{
 	(void)game;
 	exit(0);
 }
@@ -105,17 +107,17 @@ int	ft_signx(float f)
 {
 	if (f < 0)
 	{
-		//if (f > -0.01f)
+		// if (f > -0.01f)
 		//	return (0);
-		//else
-			return (1);
+		// else
+		return (1);
 	}
 	else
 	{
-		//if (f < 0.01f)
+		// if (f < 0.01f)
 		//	return (0);
-		//else
-			return (0);
+		// else
+		return (0);
 	}
 }
 
@@ -163,7 +165,7 @@ int	do_move(int key, t_data *game)
 		ft_move(game, 3);
 	else if (key == KEYD)
 		ft_move(game, 1);
-	else 
+	else
 		return (1);
 	ft_redraw(game);
 	return (1);
@@ -176,7 +178,7 @@ void	init_pos(t_data *game, int i, int j)
 	while (game->map_game[i])
 	{
 		j = 0;
-		while(game->map_game[i][j])
+		while (game->map_game[i][j])
 		{
 			if (ft_strchr("NSWE", game->map_game[i][j]))
 			{
@@ -185,12 +187,12 @@ void	init_pos(t_data *game, int i, int j)
 				if (game->map_game[i][j] == 'E')
 					game->look = 0;
 				else if (game->map_game[i][j] == 'N')
-					game->look = - M_PI_2;
+					game->look = -M_PI_2;
 				else if (game->map_game[i][j] == 'W')
 					game->look = M_PI;
 				else if (game->map_game[i][j] == 'S')
 					game->look = M_PI_2;
-				break;
+				break ;
 			}
 			j++;
 		}
@@ -204,10 +206,12 @@ void	init_img(t_data *game)
 	int		i;
 
 	i = 0;
-	while(i < 4)
+	while (i < 4)
 	{
-		img.img = mlx_xpm_file_to_image(game->mlx, game->img_path[i], &img.width, &img.height);
-		img.addr = (unsigned int *)mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.size_line, &img.endian);
+		img.img = mlx_xpm_file_to_image(game->mlx, game->img_path[i],
+			&img.width, &img.height);
+		img.addr = (unsigned int *)mlx_get_data_addr(img.img,
+			&img.bits_per_pixel, &img.size_line, &img.endian);
 		game->images[i] = img;
 		i++;
 	}
@@ -224,11 +228,11 @@ int	main(int argc, char **argv)
 	printf("\n-----full map parsed-----------\n");
 	print_map(&game);
 	parse_map(&game);
-	//check_map(&game);
+	// check_map(&game);
 	game.mlx = mlx_init();
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	init_img(&game);	
-	init_pos(&game, 0, 0);	
+	init_img(&game);
+	init_pos(&game, 0, 0);
 	ft_redraw(&game);
 	mlx_hook(game.win, 2, 0, do_move, &game);
 	mlx_hook(game.win, 17, 0, (void *)close_game, &game);

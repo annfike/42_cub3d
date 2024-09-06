@@ -6,16 +6,11 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:19:11 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/09/06 16:16:50 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:26:31 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-//void	draw_line(t_data *game, int x, float dist, t_img img)
-//{
-	
-//}
 
 float	correct_angle(float value)
 {
@@ -28,8 +23,8 @@ float	correct_angle(float value)
 
 int	wall_hit(float x, float y, t_data *game)
 {
-	int		x_m;
-	int		y_m;
+	int	x_m;
+	int	y_m;
 
 	if (x < 0 || y < 0)
 		return (0);
@@ -63,8 +58,8 @@ float	get_cross_horiz(t_data *game, float look)
 	else
 		dy = -dy;
 	x = game->x + (y - game->y) / tan(look);
-	if ( ((look > M_PI_2 && look < (3 * M_PI) / 2) && dx > 0)
-		|| ((look <= M_PI_2 && look >= (3 * M_PI) / 2) && dx < 0))
+	if (((look > M_PI_2 && look < (3 * M_PI) / 2) && dx > 0) || ((look <= M_PI_2
+				&& look >= (3 * M_PI) / 2) && dx < 0))
 		dx = -dx;
 	while (wall_hit(x, y - pix, game))
 	{
@@ -86,18 +81,18 @@ float	get_cross_vert(t_data *game, float look)
 	dy = 1 * tanf(look);
 	x = floor(game->x);
 	pix = 1;
-	if (!(look > M_PI / 2 && look < 3 * M_PI / 2)) 
+	if (!(look > M_PI / 2 && look < 3 * M_PI / 2))
 	{
 		x += 1;
 		pix = -1;
 	}
-	else 
+	else
 		dx = -dx;
 	y = game->y + (x - game->x) * tan(look);
-	if ( ((look > 0 && look < M_PI) && dy < 0)
-		|| ((look <= 0 && look >= M_PI) && dy > 0))
+	if (((look > 0 && look < M_PI) && dy < 0) || ((look <= 0 && look >= M_PI)
+			&& dy > 0))
 		dy = -dy;
-	while (wall_hit(x-pix, y, game))
+	while (wall_hit(x - pix, y, game))
 	{
 		x += dx;
 		y += dy;
@@ -111,8 +106,11 @@ float	ft_ray2(t_data *game, float look)
 	float	maxray;
 	float	x;
 	float	y;
+	float	dif_x;
+	float	dif_y;
 
-	maxray = sqrt(pow(game->map_game_height, 2) + pow(game->map_game_width_max, 2));
+	maxray = sqrt(pow(game->map_game_height, 2) + pow(game->map_game_width_max,
+			2));
 	c = 0;
 	while (c < maxray)
 	{
@@ -120,8 +118,8 @@ float	ft_ray2(t_data *game, float look)
 		y = game->y + c * sin(look);
 		if (game->map_game[(int)floor(y)][(int)floor(x)] == '1')
 		{
-			float dif_x = x - (int)x;
-			float dif_y = y - (int)y;
+			dif_x = x - (int)x;
+			dif_y = y - (int)y;
 			game->txt_w = 0;
 			if (dif_x <= 0.01)
 			{
@@ -141,9 +139,9 @@ float	ft_ray2(t_data *game, float look)
 			else if (dif_y >= 0.99)
 			{
 				game->txt_idx = 1;
-				game->txt_w = 1 - dif_x;	
+				game->txt_w = 1 - dif_x;
 			}
-			break;
+			break ;
 		}
 		c += 0.01;
 	}
@@ -154,20 +152,17 @@ float	ft_ray(t_data *game, float look)
 {
 	float	vert;
 	float	horiz;
-	
+
 	horiz = get_cross_horiz(game, look);
 	vert = get_cross_vert(game, look);
-	
-	if (vert <= horiz) 
-			return (vert); 
-		else
-		{
-			return (horiz);
-			//mlx->ray->flag = 1;
-		}
-	
+	if (vert <= horiz)
+		return (vert);
+	else
+	{
+		return (horiz);
+		// mlx->ray->flag = 1;
+	}
 }
-
 
 void	draw_line(t_data *game, int x, float dist, t_img img)
 {
@@ -176,10 +171,11 @@ void	draw_line(t_data *game, int x, float dist, t_img img)
 	unsigned int	wall_h;
 	float			txt_h;
 	float			step;
+	t_img			img_txt;
 
 	wall_h = WIN_HEIGHT / dist;
 	txt_h = 0.0f;
-	t_img img_txt = game->images[game->txt_idx];
+	img_txt = game->images[game->txt_idx];
 	step = (float)img_txt.height / wall_h;
 	if (wall_h > WIN_HEIGHT)
 	{
@@ -201,17 +197,16 @@ int	ft_sign(float f)
 {
 	if (f < 0)
 	{
-		//if (f > -0.2f)
+		// if (f > -0.2f)
 		//	return (0);
-		//else
-			return (-1);
+		// else
+		return (-1);
 	}
 	else
 	{
-		//if (f < 0.2f)
+		// if (f < 0.2f)
 		//	return (0);
-		//else
-			return (1);
+		// else
+		return (1);
 	}
 }
-
