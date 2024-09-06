@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/05 17:17:04 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:21:36 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,13 @@ void print_map(t_data *game) {
     }
 }
 
-void	error(char *error)
+void	error(t_data *game, char *error)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(error, 2);
 	ft_putstr_fd("\n", 2);
+	if (game)
+		free_all(game);
 	exit(0);
 }
 
@@ -216,7 +218,7 @@ int	main(int argc, char **argv)
 	t_data	game;
 
 	if (argc != 2)
-		error("Invalid number of arguments");
+		error(NULL, "Invalid number of arguments");
 	ft_memset(&game, 0, sizeof(t_data));
 	read_map(&game, argv);
 	printf("\n-----full map parsed-----------\n");

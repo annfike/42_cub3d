@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/01 14:40:30 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:16:50 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,22 @@
 
 static void    check_spaces_around(t_data *data, int i, int j)
 {
-    if (data->map_game[i][j - 1] == ' ' || data->map_game[i][j + 1] == ' '
-        || data->map_game[i - 1][j] == ' ' || data->map_game[i + 1][j] == ' '
-        || data->map_game[i - 1][j + 1] == ' ' || data->map_game[i - 1][j - 1] == ' '
-        || data->map_game[i + 1][j + 1] == ' ' || data->map_game[i + 1][j - 1] == ' ')
+    char    **map;
+    
+    map = data->map_game;
+    if (map[i][j - 1] == ' ' || map[i][j + 1] == ' '
+        || map[i - 1][j] == ' ' || map[i + 1][j] == ' '
+        || map[i - 1][j + 1] == ' ' || map[i - 1][j - 1] == ' '
+        || map[i + 1][j + 1] == ' ' || map[i + 1][j - 1] == ' ')
     {
-        free_all(data);
-        error("The map is not surrounded by walls.");
+        error(data, "The map is not surrounded by walls.");
+    }
+    if (map[i][j - 1] == '\n' || map[i][j + 1] == '\n'
+        || map[i - 1][j] == '\n' || map[i + 1][j] == '\n'
+        || map[i - 1][j + 1] == '\n' || map[i - 1][j - 1] == '\n'
+        || map[i + 1][j + 1] == '\n' || map[i + 1][j - 1] == '\n')
+    {
+        error(data, "The map is not surrounded by walls.");
     }
 }
 
@@ -44,8 +53,7 @@ void	check_walls0(t_data *data)
                 if ((i == 0 || i == data->map_game_height - 1)
                     || (j == 0 || j == len - 1))
                 {
-                    free_all(data);
-                    error("The map is not surrounded by walls.");
+                    error(data, "The map is not surrounded by walls.");
                 }
                 check_spaces_around(data, i, j);
             }          
@@ -107,8 +115,7 @@ void    check_walls(t_data *data)
                 flag1 = check_wall_all_dir(data, i, j, len);
                 if (flag1 < 4)
                 {
-                    free_all(data);
-                    error("The map is not surrounded by walls.");
+                    error(data, "The map is not surrounded by walls.");
                 }
             }
             j++;

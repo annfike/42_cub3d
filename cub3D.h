@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/05 12:39:24 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:35:20 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,14 @@ typedef struct s_ray
 }	t_ray;
 
 /* main */
-void	error(char *error);
+void	error(t_data *game, char *error);
 
 /* utils */
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putnbr_fd(int n, int fd);
-int     ft_atoi1(const char *str, int *i);
+int     ft_atoi1(t_data *data, const char *str, int *i);
 
 /* map_parse */
 void    free_map(t_data *data);

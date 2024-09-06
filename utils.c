@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 14:41:15 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/06/01 17:49:01 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:39:40 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_putnbr_fd(int n, int fd)
 	ft_putchar_fd((nb % 10) + '0', fd);
 }
 
-int	ft_atoi1(const char *str, int *g)
+int	ft_atoi1(t_data *data, const char *str, int *g)
 {
 	int	i;
 	int	minus;
@@ -83,6 +83,6 @@ int	ft_atoi1(const char *str, int *g)
 	}
 	n = n * minus;
 	if (n < 0 || n > 255)
-		error("Color value must be between 0 and 255.");
+		error(data, "Color value must be between 0 and 255.");
 	return (n);
 }

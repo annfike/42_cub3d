@@ -6,13 +6,12 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/05 17:17:25 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:15:15 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "cub3D.h"
-
 
 void    free_map(t_data *data)
 {
@@ -44,10 +43,14 @@ void    free_all(t_data *data)
 {
 	free_map(data);
 	free_map_game(data);
-	free(data->img_path[0]);
-	free(data->img_path[1]);
-	free(data->img_path[2]);
-	free(data->img_path[3]);
+	if (data->img_path[0])
+		free(data->img_path[0]);
+	if (data->img_path[1])
+		free(data->img_path[1]);
+	if (data->img_path[2])
+		free(data->img_path[2]);
+	if (data->img_path[3])
+		free(data->img_path[3]);
 	if (data->images[0].img)
 		mlx_destroy_image(data->mlx, data->images[0].img);
 	if (data->images[1].img)
@@ -61,9 +64,6 @@ void    free_all(t_data *data)
 void    save_img_path(t_data *data, char *line, char c, int j)
 {
 	int i;
-	//printf("line = %s\n", line);
-	//printf("c = %c\n", c);
-	//printf("j = %d\n", j);
 	
 	i = j;
 	while (line[i] == ' ' && line[i] != '.' && line[i] != '\0')
@@ -77,34 +77,58 @@ void    save_img_path(t_data *data, char *line, char c, int j)
 		data->img_path[2] = ft_strdup(s);
 	else if (c == 'E')
 		data->img_path[3] = ft_strdup(s);
-	//free(s);
+	free(s);
 }
 
 void save_colors(t_data *data, char *line, char c, int j)
 {
 	int i;
 	i = j;
-	while ((line[i] < 48 || line[i] > 57) && line[i] != '\0')
+	while (line[i] == ' ' && line[i] != '\0')
 		i++;
 	if (c == 'F')
 	{
-		data->f_colors[0] = ft_atoi1(&line[i], &i);
-		while (line[i] < 48 || line[i] > 57)
+		while (line[i] == ' ')
 			i++;
-		data->f_colors[1] = ft_atoi1(&line[i], &i);
-		while (line[i] < 48 || line[i] > 57)
+		if (line[i] < 48 || line[i] > 57)
+			error(data, "The map is not valid.");
+		data->f_colors[0] = ft_atoi1(data, &line[i], &i);
+		if (line[i++] != ',')
+			error(data, "The map is not valid.");
+		if (line[i] < 48 || line[i] > 57)
+			error(data, "The map is not valid.");
+		data->f_colors[1] = ft_atoi1(data, &line[i], &i);
+		if (line[i++] != ',')
+			error(data, "The map is not valid.");
+		if (line[i] < 48 || line[i] > 57)
+			error(data, "The map is not valid.");
+		data->f_colors[2] = ft_atoi1(data, &line[i], &i);
+		while (line[i] == ' ')
 			i++;
-		data->f_colors[2] = ft_atoi1(&line[i], &i);
+		if (line[i] != '\n')
+			error(data, "The map is not valid.");
 	}     
 	else if (c == 'C')
 	{
-		data->c_colors[0] = ft_atoi1(&line[i], &i);
-		while (line[i] < 48 || line[i] > 57)
+		while (line[i] == ' ')
 			i++;
-		data->c_colors[1] = ft_atoi1(&line[i], &i);
-		while (line[i] < 48 || line[i] > 57)
+		if (line[i] < 48 || line[i] > 57)
+			error(data, "The map is not valid.");
+		data->c_colors[0] = ft_atoi1(data, &line[i], &i);
+		if (line[i++] != ',')
+			error(data, "The map is not valid.");
+		if (line[i] < 48 || line[i] > 57)
+			error(data, "The map is not valid.");
+		data->c_colors[1] = ft_atoi1(data, &line[i], &i);
+		if (line[i++] != ',')
+			error(data, "The map is not valid.");
+		if (line[i] < 48 || line[i] > 57)
+			error(data, "The map is not valid.");
+		data->c_colors[2] = ft_atoi1(data, &line[i], &i);
+		while (line[i] == ' ')
 			i++;
-		data->c_colors[2] = ft_atoi1(&line[i], &i);
+		if (line[i] != '\n')
+			error(data, "The map is not valid.");
 	}
 }
 
@@ -129,6 +153,25 @@ void    save_map_game(t_data *data, int i)
 	data->map_game[j] = NULL;
 }
 
+void	check_imgs(t_data *data)
+{
+	int fd;
+	int	i;
+	
+	i = 0;
+	while (i < 4)
+	{
+		if (data->img_path[i] == NULL)
+			error(data, "The map is not valid.");
+		fd = open(data->img_path[i], O_RDONLY);
+		if (fd < 0)
+			error(data, "The map is not valid.");
+		close(fd);
+		i++;
+	}
+	printf("Images are valid.\n");
+}
+
 void    parse_elements(t_data *data)
 {
 	int i;
@@ -142,20 +185,18 @@ void    parse_elements(t_data *data)
 		j = 0;
 		while(data->map[i][j] == ' ')
 			j++;
-		//printf("\nj=%d\n", j);
 		if (((data->map[i][j] == 'N' && data->map[i][j+1] == 'O')
 			|| (data->map[i][j] == 'S' && data->map[i][j+1] == 'O')
 			|| (data->map[i][j] == 'W' && data->map[i][j+1] == 'E')
 			|| (data->map[i][j] == 'E' && data->map[i][j+1] == 'A'))
-			&& elements < 6)
+			&& data->map[i][j+2] == ' ' && elements < 6)
 		{
 			save_img_path(data, data->map[i], data->map[i][j], j+2);
 			elements++;
 		}
 		else if ((data->map[i][j] == 'F' || data->map[i][j] == 'C')
-			 && elements < 6)
+			 && data->map[i][j+1] == ' ' && elements < 6)
 		{
-			//printf("data->map[i][j] = %c\n", data->map[i][j]);
 			save_colors(data, data->map[i], data->map[i][j],j+1);
 			elements++;
 		}
@@ -163,27 +204,15 @@ void    parse_elements(t_data *data)
 		{
 			i++;
 			continue;
-		}
-		
+		}		
 		else if (elements == 6 && data->map[i][j] == '1')
-		{
 			break;
-		}
-		
 		else
-		{
-			free_all(data);
-			error("The map is not valid.");
-		}
-		//printf("elements = %d\n", elements);
+			error(data, "The map is not valid.");
 		i++;
 	}
-	if (data->img_path[0] == NULL || data->img_path[1] == NULL
-		|| data->img_path[2] == NULL || data->img_path[3] == NULL)
-		error("The map is not valid.");
+	check_imgs(data);	
 	save_map_game(data, i);
-
-
 }
 
 static void    print_elements(t_data *data)
