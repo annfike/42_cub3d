@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:19:11 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/09/05 17:16:39 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/06 13:35:51 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,17 +109,42 @@ float	ft_ray2(t_data *game, float look)
 {
 	float	c;
 	float	maxray;
-	int x;
-	int y;
+	float	x;
+	float	y;
 
 	maxray = sqrt(pow(game->map_game_height, 2) + pow(game->map_game_width_max, 2));
 	c = 0;
 	while (c < maxray)
 	{
-		x = floor(game->x + c * cos(look));
-		y = floor(game->y + c * sin(look));
-		if (game->map_game[y][x] == '1')
+		x = game->x + c * cos(look);
+		y = game->y + c * sin(look);
+		if (game->map_game[(int)floor(y)][(int)floor(x)] == '1')
+		{
+			float dif_x = x - (int)x;
+			float dif_y = y - (int)y;
+			game->txt_w = 0;
+			if (dif_x <= 0.01)
+			{
+				game->txt_idx = 2;
+				game->txt_w = dif_y;
+			}
+			else if (dif_y <= 0.01)
+			{
+				game->txt_idx = 0;
+				game->txt_w = dif_x;
+			}
+			else if (dif_x >= 0.99)
+			{
+				game->txt_idx = 3;
+				game->txt_w = 1 - dif_y;
+			}
+			else if (dif_y >= 0.99)
+			{
+				game->txt_idx = 1;
+				game->txt_w = 1 - dif_x;	
+			}
 			break;
+		}
 		c += 0.01;
 	}
 	return (c);
@@ -148,27 +173,27 @@ void	draw_line(t_data *game, int x, float dist, t_img img)
 {
 	unsigned int	*dst;
 	unsigned int	*src;
-	unsigned int	h;
-	float			src_f;
-	float			d_shift;
+	unsigned int	wall_h;
+	float			txt_h;
+	float			step;
 
-	h = WIN_HEIGHT / dist;
-	src_f = 0.0f;
-	d_shift = (float) game->images[game->txt_idx].height / h;
-	if (h > WIN_HEIGHT)
+	wall_h = WIN_HEIGHT / dist;
+	txt_h = 0.0f;
+	t_img img_txt = game->images[game->txt_idx];
+	step = (float)img_txt.height / wall_h;
+	if (wall_h > WIN_HEIGHT)
 	{
-		src_f = 0.5f * (h - WIN_HEIGHT) / h * game->images[game->txt_idx].height;
-		h = WIN_HEIGHT;
+		txt_h = 0.5f * (wall_h - WIN_HEIGHT) / wall_h * img_txt.height;
+		wall_h = WIN_HEIGHT;
 	}
-	src = game->images[game->txt_idx].addr;
-	src += (int)((float) game->txt_w * game->images[game->txt_idx].width);
-	dst = img.addr + x + (WIN_HEIGHT - h) / 2 * WIN_WIDTH;
-	while (h-- > 0)
+	src = img_txt.addr;
+	src += (int)((float)game->txt_w * img_txt.width);
+	dst = img.addr + x + (WIN_HEIGHT - wall_h) / 2 * WIN_WIDTH;
+	while (wall_h-- > 0)
 	{
-		*dst = *(src + ((int)src_f) * game->images[game->txt_idx].width);
-		//*dst = game->txt_idx * 255 + (1 - game->txt_idx) * (255 << 8);
+		*dst = *(src + ((int)txt_h) * img_txt.width);
 		dst += WIN_WIDTH;
-		src_f += d_shift;
+		txt_h += step;
 	}
 }
 
