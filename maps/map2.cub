@@ -1,7 +1,7 @@
-NO ./img/cat1.xpm
-SO ./img/exit.xpm
-WE ./img/floor1.xpm
-EA ./img/wall1.xpm
+NO ./img/n.xpm
+SO ./img/s.xpm
+WE ./img/w.xpm
+EA ./img/e.xpm
 
 F 220,100,0
 C 225,30,0

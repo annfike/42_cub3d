@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:11:08 by dmiasnik          #+#    #+#             */
-/*   Updated: 2024/09/05 15:05:03 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:31:03 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	draw(t_img image, t_data *game)
 	delta = FOV / (WIN_WIDTH - 1);
 	while (x < WIN_WIDTH)
 	{
-		draw_line(game, x, ft_ray2(game, look) * cos(game->look - look), image);
+		draw_line(game, x, ft_ray(game, look) * cos(game->look - look), image);
 		look += delta;
 		x++;
 	}
@@ -56,9 +56,11 @@ void	ft_redraw(t_data *game)
 	img.width = WIN_WIDTH;
 	img.height = WIN_HEIGHT;
 	img.addr = (unsigned int *)mlx_get_data_addr(img.img, &img.bits_per_pixel,
-		&img.size_line, &img.endian);
+			&img.size_line, &img.endian);
 	draw_up_down(img, game);
 	draw(img, game);
 	mlx_put_image_to_window(game->mlx, game->win, img.img, 0, 0);
 	mlx_destroy_image(game->mlx, img.img);
+	if (game->mm_show)
+		print_mm(game);
 }

@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/06 15:16:50 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:14:54 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ void	check_walls0(t_data *data)
 			{
 				if ((i == 0 || i == data->map_game_height - 1) || (j == 0
 						|| j == len - 1))
-				{
 					error(data, "The map is not surrounded by walls.");
-				}
 				check_spaces_around(data, i, j);
 			}
 			j++;
@@ -79,19 +77,19 @@ static int	check_wall_all_dir(t_data *data, int i, int j, int len)
 	k = -1;
 	flag = 0;
 	flag1 = 0;
-	while (j > ++k) //слева
+	while (j > ++k)
 		flag = check_wall_cell(data, i, k, flag);
 	flag1 = flag;
 	k = len + 1;
-	while (j < --k) //справа
+	while (j < --k)
 		flag = check_wall_cell(data, i, k, flag);
 	flag1 += flag;
 	k = -1;
-	while (i > ++k) //сверху
+	while (i > ++k)
 		flag = check_wall_cell(data, k, j, flag);
 	flag1 += flag;
 	k = data->map_game_height - 1 + 1;
-	while (i < --k) //снизу
+	while (i < --k)
 		flag = check_wall_cell(data, k, j, flag);
 	flag1 += flag;
 	return (flag1);
@@ -117,9 +115,7 @@ void	check_walls(t_data *data)
 			{
 				flag1 = check_wall_all_dir(data, i, j, len);
 				if (flag1 < 4)
-				{
 					error(data, "The map is not surrounded by walls.");
-				}
 			}
 			j++;
 		}

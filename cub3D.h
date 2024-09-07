@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/06 16:26:14 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:23:53 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@
 # define KEYA 0
 # define KEYS 1
 # define KEYD 2
+# define KEYM 46
 
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 480
 # define FOV 60 * M_PI / 180
 # define STEP_TURN 4.0f * M_PI / 180
 # define STEP_UP 0.2f
+# define MM_SIZE 8
 
 typedef struct s_img
 {
@@ -55,7 +57,7 @@ typedef struct s_data
 {
 	char			**map;
 	int				map_height;
-	char *img_path[4]; // NSWE
+	char 			*img_path[4];
 	int				f_colors[3];
 	int				c_colors[3];
 	char			**map_game;
@@ -63,44 +65,38 @@ typedef struct s_data
 	int				map_game_width_max;
 	void			*mlx;
 	void			*win;
-
 	float			x;
 	float			y;
 	float			look;
 	t_img			images[4];
 	int				txt_idx;
 	float			txt_w;
+	t_img			mm_player;
+	t_img			mm_wall;
+	int				mm_show;
 }					t_data;
 
-typedef struct s_ray
-{
-	float			dx;
-	float			dy;
-	int				sx;
-	int				sy;
-	float			hor_x;
-	float			hor_y;
-	float			vert_x;
-	float			vert_y;
-	float			vert_dist;
-	float			hor_dist;
-	float			vert_w;
-	float			hor_w;
-}					t_ray;
-
 /* main */
-void				error(t_data *game, char *error);
+
 
 /* utils */
 void				*ft_memset(void *s, int c, size_t n);
 void				ft_putstr_fd(char *s, int fd);
-void				ft_putchar_fd(char c, int fd);
-void				ft_putnbr_fd(int n, int fd);
 int					ft_atoi1(t_data *data, const char *str, int *i);
 
-/* map_parse */
+/* free */
 void				free_map(t_data *data);
+void				free_map_game(t_data *data);
 void				free_all(t_data *data);
+void				error(t_data *game, char *error);
+void				close_game(t_data *game);
+
+/* move */
+void				ft_move(t_data *game, int direction);
+int					do_move(int key, t_data *game);
+
+/* map_parse */
+
 void				save_img_path(t_data *data, char *line, char c, int j);
 void				save_colors(t_data *data, char *line, char c, int j);
 void				save_map_game(t_data *data, int i);
@@ -108,7 +104,11 @@ void				parse_elements(t_data *data);
 void				parse_map(t_data *data);
 
 /* map_check */
+int					check_file_format(char *s);
 void				check_map_chars(t_data *data);
+void				check_map(t_data *data);
+void				check_map0(t_data *data);
+void				check_imgs(t_data *data);
 
 /* map_check_walls */
 void				check_walls(t_data *data);
@@ -118,7 +118,10 @@ void				check_walls0(t_data *data);
 void				ft_redraw(t_data *game);
 void				draw_line(t_data *game, int w, float dist, t_img img);
 float				ft_ray(t_data *game, float look);
-float				ft_ray2(t_data *game, float look);
-int					ft_sign(float f);
+
+/* bonus */
+void				init_img_mm(t_data *game);
+void				print_mm(t_data *game);
+
 
 #endif

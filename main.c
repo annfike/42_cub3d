@@ -6,24 +6,11 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:10:40 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/06 15:21:36 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/07 16:20:39 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-int	check_file_format(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	if (s[i - 1] == 'b' && s[i - 2] == 'u' && s[i - 3] == 'c' && s[i
-		- 4] == '.')
-		return (1);
-	return (0);
-}
 
 int	count_lines(char **argv)
 {
@@ -79,98 +66,6 @@ int	read_map(t_data *game, char **argv)
 	return (1);
 }
 
-void	print_map(t_data *game)
-{
-	for (int i = 0; i < game->map_height; i++)
-	{
-		printf("%s", game->map[i]);
-	}
-}
-
-void	error(t_data *game, char *error)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(error, 2);
-	ft_putstr_fd("\n", 2);
-	if (game)
-		free_all(game);
-	exit(0);
-}
-
-void	close_game(t_data *game)
-{
-	(void)game;
-	exit(0);
-}
-
-int	ft_signx(float f)
-{
-	if (f < 0)
-	{
-		// if (f > -0.01f)
-		//	return (0);
-		// else
-		return (1);
-	}
-	else
-	{
-		// if (f < 0.01f)
-		//	return (0);
-		// else
-		return (0);
-	}
-}
-
-void	ft_move(t_data *game, int direction)
-{
-	float	dist;
-	float	dx;
-	float	dy;
-	float	angle;
-
-	angle = game->look + direction * M_PI / 2;
-	dx = STEP_UP * cos(angle);
-	dy = STEP_UP * sin(angle);
-	dist = ft_ray2(game, ft_sign(dy) * M_PI / 2);
-	if (dist * dist < dy * dy + 0.1)
-		dy = 0.0f;
-	dist = ft_ray2(game, ft_signx(dx) * M_PI);
-	if (dist * dist < dx * dx + 0.1)
-		dx = 0.0f;
-	dist = ft_ray2(game, angle);
-	/*if (dist * dist < dy * dy + dx * dx)
-		if (ft_sign(dy) * ft_signx(dx) != 0)
-		{
-			dx = 0.0f;
-			dy = 0.0f;
-		}
-	*/
-	game->x += dx;
-	game->y += dy;
-}
-
-int	do_move(int key, t_data *game)
-{
-	if (key == KEYEXIT)
-		close_game(game);
-	if (key == KEYUP || key == KEYW)
-		ft_move(game, 0);
-	else if (key == KEYDOWN || key == KEYS)
-		ft_move(game, 2);
-	else if (key == KEYLEFT)
-		game->look -= STEP_TURN;
-	else if (key == KEYRIGHT)
-		game->look += STEP_TURN;
-	else if (key == KEYA)
-		ft_move(game, 3);
-	else if (key == KEYD)
-		ft_move(game, 1);
-	else
-		return (1);
-	ft_redraw(game);
-	return (1);
-}
-
 void	init_pos(t_data *game, int i, int j)
 {
 	game->x = 0;
@@ -209,9 +104,9 @@ void	init_img(t_data *game)
 	while (i < 4)
 	{
 		img.img = mlx_xpm_file_to_image(game->mlx, game->img_path[i],
-			&img.width, &img.height);
+				&img.width, &img.height);
 		img.addr = (unsigned int *)mlx_get_data_addr(img.img,
-			&img.bits_per_pixel, &img.size_line, &img.endian);
+				&img.bits_per_pixel, &img.size_line, &img.endian);
 		game->images[i] = img;
 		i++;
 	}
@@ -225,13 +120,11 @@ int	main(int argc, char **argv)
 		error(NULL, "Invalid number of arguments");
 	ft_memset(&game, 0, sizeof(t_data));
 	read_map(&game, argv);
-	printf("\n-----full map parsed-----------\n");
-	print_map(&game);
 	parse_map(&game);
-	// check_map(&game);
 	game.mlx = mlx_init();
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	init_img(&game);
+	init_img_mm(&game);
 	init_pos(&game, 0, 0);
 	ft_redraw(&game);
 	mlx_hook(game.win, 2, 0, do_move, &game);
@@ -245,4 +138,41 @@ int	main(int argc, char **argv)
 leaks --atExit -- ./cub3D map.cub
 valgrind ./cub3D map.cub
 valgrind --leak-check=full --show-leak-kinds=all ./cub3D map.cub
+
+
+---------------DEBUG----------------
+
+void	print_map(t_data *game)
+{
+	for (int i = 0; i < game->map_height; i++)
+	{
+		printf("%s", game->map[i]);
+	}
+}
+
+static void	print_elements(t_data *data)
+{
+	printf("\nNO: %s\n", data->img_path[0]);
+	printf("SO: %s\n", data->img_path[1]);
+	printf("WE: %s\n", data->img_path[2]);
+	printf("EA: %s\n", data->img_path[3]);
+	printf("F: %d, %d, %d\n", data->f_colors[0], data->f_colors[1],
+		data->f_colors[2]);
+	printf("C: %d, %d, %d\n", data->c_colors[0], data->c_colors[1],
+		data->c_colors[2]);
+}
+
+static void	print_map_game(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->map_game[i])
+	{
+		printf("%s", data->map_game[i]);
+		i++;
+	}
+}
+
+
  */
