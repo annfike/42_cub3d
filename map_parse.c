@@ -6,70 +6,56 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/07 16:32:17 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:56:11 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	save_map_game(t_data *data, int i)
+int	skip_whitespace(char *line)
 {
 	int	j;
-	int	k;
 
 	j = 0;
-	k = 0;
-	data->map_game_width_max = 0;
-	data->map_game = (char **)malloc(sizeof(char *)
-			* (data->map_height - i + 1));
-	while (i < data->map_height)
-	{
-		data->map_game[j] = ft_strdup(data->map[i]);
-		if (data->map_game_width_max < (int)ft_strlen(data->map_game[j]))
-			data->map_game_width_max = ft_strlen(data->map_game[j]);
-		i++;
+	while (line[j] == ' ')
 		j++;
-		data->map_game_height++;
-	}
-	data->map_game[j] = NULL;
+	return (j);
+}
+
+int	is_image_path(char *line, int j)
+{
+	return (((line[j] == 'N' && line[j + 1] == 'O')
+			|| (line[j] == 'S' && line[j + 1] == 'O')
+			|| (line[j] == 'W' && line[j + 1] == 'E')
+			|| (line[j] == 'E' && line[j + 1] == 'A')) && line[j + 2] == ' ');
+}
+
+int	is_color(char *line, int j)
+{
+	return ((line[j] == 'F' || line[j] == 'C') && line[j + 1] == ' ');
 }
 
 void	parse_elements(t_data *data)
 {
 	int	i;
 	int	j;
-	int	elements;
+	int	el;
 
 	i = 0;
 	j = 0;
-	elements = 0;
-	while (i < data->map_height)
+	el = 0;
+	while (i < data->map_height && el < 6 && data->map[i][j] != '1')
 	{
-		j = 0;
-		while (data->map[i][j] == ' ')
-			j++;
-		if (((data->map[i][j] == 'N' && data->map[i][j + 1] == 'O')
-				|| (data->map[i][j] == 'S' && data->map[i][j + 1] == 'O')
-				|| (data->map[i][j] == 'W' && data->map[i][j + 1] == 'E')
-				|| (data->map[i][j] == 'E' && data->map[i][j + 1] == 'A'))
-			&& data->map[i][j + 2] == ' ' && elements < 6)
-		{
-			save_img_path(data, data->map[i], data->map[i][j], j + 2);
-			elements++;
-		}
-		else if ((data->map[i][j] == 'F' || data->map[i][j] == 'C')
-			&& data->map[i][j + 1] == ' ' && elements < 6)
-		{
-			save_colors(data, data->map[i], data->map[i][j], j + 1);
-			elements++;
-		}
+		j = skip_whitespace(data->map[i]);
+		if (is_image_path(data->map[i], j) && el < 6)
+			el += save_img_path(data, data->map[i], data->map[i][j], j + 2);
+		else if (is_color(data->map[i], j) && el < 6)
+			el += save_colors(data, data->map[i], data->map[i][j], j + 1);
 		else if (data->map[i][j] == '\n')
 		{
 			i++;
 			continue ;
 		}
-		else if (elements == 6 && data->map[i][j] == '1')
-			break ;
 		else
 			error(data, "The map is not valid.");
 		i++;

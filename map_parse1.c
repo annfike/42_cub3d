@@ -6,13 +6,13 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 16:27:46 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/07 16:29:39 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/07 17:26:35 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	save_img_path(t_data *data, char *line, char c, int j)
+int	save_img_path(t_data *data, char *line, char c, int j)
 {
 	int		i;
 	char	*s;
@@ -30,6 +30,7 @@ void	save_img_path(t_data *data, char *line, char c, int j)
 	else if (c == 'E')
 		data->img_path[3] = ft_strdup(s);
 	free(s);
+	return (1);
 }
 
 static void	parse_color(t_data *data, char *line, int *color_array, int *i)
@@ -55,7 +56,7 @@ static void	parse_color(t_data *data, char *line, int *color_array, int *i)
 		error(data, "The map is not valid.");
 }
 
-void	save_colors(t_data *data, char *line, char c, int j)
+int	save_colors(t_data *data, char *line, char c, int j)
 {
 	int	i;
 
@@ -64,4 +65,27 @@ void	save_colors(t_data *data, char *line, char c, int j)
 		parse_color(data, line, data->f_colors, &i);
 	else if (c == 'C')
 		parse_color(data, line, data->c_colors, &i);
+	return (1);
+}
+
+void	save_map_game(t_data *data, int i)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	k = 0;
+	data->map_game_width_max = 0;
+	data->map_game = (char **)malloc(sizeof(char *)
+			* (data->map_height - i + 1));
+	while (i < data->map_height)
+	{
+		data->map_game[j] = ft_strdup(data->map[i]);
+		if (data->map_game_width_max < (int)ft_strlen(data->map_game[j]))
+			data->map_game_width_max = ft_strlen(data->map_game[j]);
+		i++;
+		j++;
+		data->map_game_height++;
+	}
+	data->map_game[j] = NULL;
 }

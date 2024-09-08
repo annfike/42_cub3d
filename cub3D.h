@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/07 16:23:53 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:59:47 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct s_data
 {
 	char			**map;
 	int				map_height;
-	char 			*img_path[4];
+	char			*img_path[4];
 	int				f_colors[3];
 	int				c_colors[3];
 	char			**map_game;
@@ -77,7 +77,10 @@ typedef struct s_data
 }					t_data;
 
 /* main */
-
+int					count_lines(char **argv);
+int					read_map(t_data *game, char **argv);
+void				init_pos(t_data *game, int i, int j);
+void				init_img(t_data *game);
 
 /* utils */
 void				*ft_memset(void *s, int c, size_t n);
@@ -96,9 +99,8 @@ void				ft_move(t_data *game, int direction);
 int					do_move(int key, t_data *game);
 
 /* map_parse */
-
-void				save_img_path(t_data *data, char *line, char c, int j);
-void				save_colors(t_data *data, char *line, char c, int j);
+int					save_img_path(t_data *data, char *line, char c, int j);
+int					save_colors(t_data *data, char *line, char c, int j);
 void				save_map_game(t_data *data, int i);
 void				parse_elements(t_data *data);
 void				parse_map(t_data *data);
@@ -122,6 +124,5 @@ float				ft_ray(t_data *game, float look);
 /* bonus */
 void				init_img_mm(t_data *game);
 void				print_mm(t_data *game);
-
 
 #endif

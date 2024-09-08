@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/07 16:18:31 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/07 17:22:56 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	check_cell_char(t_data *data, int i, int j)
 	player_count = 0;
 	if (!ft_strchr(" 01NSWE", data->map_game[i][j]))
 	{
-		error(data, "The map contains invalid characters.");
+		error(data, "Map error.");
 	}
 	if (ft_strchr("NSWE", data->map_game[i][j]))
 		player_count++;
