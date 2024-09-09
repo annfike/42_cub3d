@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 17:27:23 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/08 11:59:47 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:21:59 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,12 @@
 
 # define WIN_WIDTH 640
 # define WIN_HEIGHT 480
+# define FOV 1.047197551196598 
+# define STEP_TURN 0.069813170079773 
+/*
 # define FOV 60 * M_PI / 180
 # define STEP_TURN 4.0f * M_PI / 180
+*/
 # define STEP_UP 0.2f
 # define MM_SIZE 8
 

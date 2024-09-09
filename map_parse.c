@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/09 12:09:58 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:17:40 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,7 @@ void	parse_elements(t_data *data)
 			el += save_img_path(data, data->map[i], data->map[i][j], j + 2);
 		else if (is_color(data->map[i], j) && el < 6)
 			el += save_colors(data, data->map[i], data->map[i][j], j + 1);
-		else if (data->map[i][j] == '\n')
-		{
-			i++;
-			continue ;
-		}
-		else
+		else if (data->map[i][j] != '\n')
 			error(data, "The map is not valid.");
 		i++;
 	}
