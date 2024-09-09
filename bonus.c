@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/07 15:24:43 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/07 16:31:52 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/09 11:44:48 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,24 @@ void	print_mm(t_data *game)
 		}
 	}
 	mlx_put_image_to_window(game->mlx, game->win,
-		game->mm_player.img, (int)game->x * MM_SIZE,
-		(int)game->y * MM_SIZE);
+		game->mm_player.img, game->x * MM_SIZE - game->mm_player.width/2, 
+		game->y * MM_SIZE - game->mm_player.height/2);
+	
+	//int x1 = game->x * MM_SIZE;
+	float x1;
+	float y1;
+	float l = game->look - 0.5;
+	while (l < game->look + 0.5)
+	{
+		float c = 0;
+		while (c < 15)
+		{		
+			x1 = c * cos(l);
+			y1 = c * sin(l);
+			//printf("x: %f, y: %f\n", x1, y1);
+			mlx_pixel_put(game->mlx, game->win, game->x * MM_SIZE + x1, game->y* MM_SIZE  + y1, 0xFF47CA);		
+			c += 0.1;
+		}
+		l += 0.05;
+	}	
 }
