@@ -6,7 +6,7 @@
 /*   By: adelaloy <adelaloy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:41:01 by adelaloy          #+#    #+#             */
-/*   Updated: 2024/09/08 11:56:11 by adelaloy         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:09:58 by adelaloy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	parse_elements(t_data *data)
 		i++;
 	}
 	check_imgs(data);
+	while (data->map[i][0] == '\n')
+		i++;
 	save_map_game(data, i);
 }
 
